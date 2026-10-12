@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="btnLater" type="id" />
+    <item name="btnAllow" type="id" />
+    <item name="permItemsContainer" type="id" />
+    <item name="permMessage" type="id" />
+    <item name="permTitle" type="id" />
+    <item name="sidebarWeatherWidgetRow" type="id" />
+</resources>

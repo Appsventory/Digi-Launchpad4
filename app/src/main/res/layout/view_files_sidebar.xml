@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Sidebar File Manager (filter + lokasi). Shared MainActivity + FilesActivity.
+-->
+<merge xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <FrameLayout
+        android:id="@+id/filesSidebarScrim"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#99000000"
+        android:visibility="gone"
+        android:focusable="false"
+        android:clickable="true">
+
+        <LinearLayout
+            android:id="@+id/filesSidebarPanel"
+            android:layout_width="340dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:orientation="vertical"
+            android:background="@drawable/bg_files_sidebar_panel"
+            android:elevation="28dp"
+            android:padding="20dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:descendantFocusability="afterDescendants">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Navigasi"
+                    android:textColor="@color/theme_dark_primary_text"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.01" />
+
+                <TextView
+                    android:id="@+id/filesSidebarClose"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:gravity="center"
+                    android:text="✕"
+                    android:textColor="@color/theme_dark_primary_text"
+                    android:textSize="15sp"
+                    android:focusable="true"
+                    android:background="@drawable/bg_hover_file_exit" />
+            </LinearLayout>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_marginTop="12dp"
+                android:scrollbars="none"
+                android:clipToPadding="false">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="FILTER"
+                        android:textColor="@color/theme_dark_secondary_text"
+                        android:textSize="11sp"
+                        android:letterSpacing="0.08"
+                        android:paddingBottom="8dp"
+                        android:paddingTop="4dp" />
+
+                    <com.appsventory.digiapps.launchpad4.ui.files.FilesFilterRow
+                        android:id="@+id/filesFilterApk"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="6dp"
+                        android:nextFocusDown="@id/filesFilterDoc"
+
+                        app:iconText="APK"
+                        app:iconBackground="@drawable/bg_files_icon_apk"
+                        app:labelText="APK installer" />
+
+                    <com.appsventory.digiapps.launchpad4.ui.files.FilesFilterRow
+                        android:id="@+id/filesFilterDoc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="6dp"
+                        android:nextFocusUp="@id/filesFilterApk"
+                        android:nextFocusDown="@id/filesFilterArchive"
+
+                        app:iconText="DOC"
+                        app:iconBackground="@drawable/bg_files_icon_file"
+                        app:labelText="Dokumen" />
+
+                    <com.appsventory.digiapps.launchpad4.ui.files.FilesFilterRow
+                        android:id="@+id/filesFilterArchive"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="6dp"
+                        android:nextFocusUp="@id/filesFilterDoc"
+                        android:nextFocusDown="@id/filesFilterDownload"
+                        app:iconText="ZIP"
+                        app:iconBackground="@drawable/bg_files_icon_file"
+                        app:labelText="Archive" />
+
+                    <com.appsventory.digiapps.launchpad4.ui.files.FilesFilterRow
+                        android:id="@+id/filesFilterDownload"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="6dp"
+                        android:nextFocusUp="@id/filesFilterArchive"
+                        android:nextFocusDown="@id/filesLocInternal"
+                        app:iconText="↓"
+                        app:iconBackground="@drawable/bg_files_icon_folder"
+                        app:labelText="Downloads" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="LOKASI"
+                        android:textColor="@color/theme_dark_secondary_text"
+                        android:textSize="11sp"
+                        android:letterSpacing="0.08"
+                        android:paddingBottom="8dp"
+                        android:paddingTop="16dp" />
+
+                    <com.appsventory.digiapps.launchpad4.ui.files.FilesFilterRow
+                        android:id="@+id/filesLocInternal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="6dp"
+                        android:nextFocusUp="@id/filesFilterDownload"
+                        app:iconText="INT"
+                        app:iconBackground="@drawable/bg_files_icon_folder"
+                        app:labelText="Internal storage" />
+
+                    <com.appsventory.digiapps.launchpad4.ui.files.FilesFilterRow
+                        android:id="@+id/filesLocExternal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="6dp"
+                        android:visibility="gone"
+                        app:iconText="EXT"
+                        app:iconBackground="@drawable/bg_files_icon_folder"
+                        app:labelText="External storage" />
+
+                    <LinearLayout
+                        android:id="@+id/filesSambaList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
+
+                    <com.appsventory.digiapps.launchpad4.ui.files.FilesFilterRow
+                        android:id="@+id/filesLocAddSamba"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:iconText="+"
+                        app:iconBackground="@drawable/bg_files_icon_file"
+                        app:labelText="Tambah Samba share" />
+
+                </LinearLayout>
+            </ScrollView>
+        </LinearLayout>
+    </FrameLayout>
+</merge>

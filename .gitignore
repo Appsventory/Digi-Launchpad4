@@ -1,0 +1,59 @@
+# ── Gradle / build output ─────────────────────────
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+captures/
+.externalNativeBuild/
+.cxx/
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+/build
+/captures
+
+# ── Kotlin ────────────────────────────────────────
+.kotlin/
+
+# ── Android Studio / IntelliJ ─────────────────────
+*.iml
+.idea/
+!.idea/codeStyles/
+!.idea/runConfigurations/
+
+# ── Local machine config (paths, SDK) ─────────────
+local.properties
+
+# ── Signing & secrets — NEVER commit ──────────────
+*.jks
+*.keystore
+keystore.properties
+signing.properties
+google-services.json
+.env
+secrets.properties
+
+# ── Release artifacts ─────────────────────────────
+*.apk
+*.aab
+*.ap_
+*.dex
+output-metadata.json
+app/release/
+app/debug/
+mapping.txt
+
+# ── OS / editor junk ──────────────────────────────
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.vscode/
+__MACOSX/
+
+# ── Logs & misc ───────────────────────────────────
+*.log
+hs_err_pid*

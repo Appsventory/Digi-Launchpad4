@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/filesRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:background="@color/background"
+    android:clipChildren="false"
+    android:clipToPadding="false">
+
+    <!-- LEFT PANEL: Navigation Rail -->
+    <LinearLayout
+        android:id="@+id/filesSidePanel"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:background="@color/surface"
+        android:orientation="vertical"
+        android:paddingTop="24dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="12dp"
+        android:clipChildren="false">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Digi Files"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="24dp" />
+
+        <TextView
+            style="@style/SettingsSectionTitle"
+            android:text="Kategori"
+            android:paddingTop="0dp" />
+
+        <LinearLayout
+            android:id="@+id/filesFilterApk"
+            style="@style/SettingsRowButton"
+            android:gravity="start|center_vertical"
+            android:paddingStart="12dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="📦" android:textSize="18sp" android:layout_marginEnd="12dp" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="APK" android:textColor="@color/white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/filesFilterDoc"
+            style="@style/SettingsRowButton"
+            android:gravity="start|center_vertical"
+            android:paddingStart="12dp"
+            android:layout_marginTop="4dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="📄" android:textSize="18sp" android:layout_marginEnd="12dp" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Dokumen" android:textColor="@color/white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/filesFilterArchive"
+            style="@style/SettingsRowButton"
+            android:gravity="start|center_vertical"
+            android:paddingStart="12dp"
+            android:layout_marginTop="4dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🗜" android:textSize="18sp" android:layout_marginEnd="12dp" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Archive" android:textColor="@color/white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/filesFilterDownload"
+            style="@style/SettingsRowButton"
+            android:gravity="start|center_vertical"
+            android:paddingStart="12dp"
+            android:layout_marginTop="4dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="⬇" android:textSize="18sp" android:layout_marginEnd="12dp" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Download" android:textColor="@color/white" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/SettingsSectionTitle"
+            android:text="Lokasi"
+            android:layout_marginTop="16dp" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:scrollbars="none">
+            <LinearLayout
+                android:id="@+id/filesLocList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/filesLocInternal"
+                    style="@style/SettingsRowButton"
+                    android:gravity="start|center_vertical"
+                    android:paddingStart="12dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="📱" android:textSize="18sp" android:layout_marginEnd="12dp" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Internal" android:textColor="@color/white" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/filesLocExternal"
+                    style="@style/SettingsRowButton"
+                    android:gravity="start|center_vertical"
+                    android:paddingStart="12dp"
+                    android:layout_marginTop="4dp"
+                    android:visibility="gone">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="💾" android:textSize="18sp" android:layout_marginEnd="12dp" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="SD Card" android:textColor="@color/white" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/filesSambaList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+
+                <LinearLayout
+                    android:id="@+id/filesLocAddSamba"
+                    style="@style/SettingsRowButton"
+                    android:gravity="start|center_vertical"
+                    android:paddingStart="12dp"
+                    android:layout_marginTop="8dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="＋" android:textSize="18sp" android:layout_marginEnd="12dp" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Tambah Samba" android:textColor="@color/white_70" />
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+    <!-- RIGHT PANEL: Main Content -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:paddingTop="20dp"
+        android:clipChildren="false">
+
+        <!-- HEADER / TOOLBAR -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:clipChildren="false">
+
+            <TextView
+                android:id="@+id/filesUpButton"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:gravity="center"
+                android:text="↑"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:focusable="true"
+                android:background="@drawable/bg_hover_transparent"
+                android:nextFocusLeft="@id/filesFilterApk" />
+
+            <TextView
+                android:id="@+id/filesPath"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:text="/"
+                android:textColor="@color/white_70"
+                android:textSize="14sp"
+                android:maxLines="1"
+                android:ellipsize="start"
+                android:focusable="true"
+                android:background="@drawable/bg_hover_transparent"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp" />
+
+            <TextView
+                android:id="@+id/filesSortButton"
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:gravity="center"
+                android:text="↕ Nama"
+                android:textColor="@color/white"
+                android:textSize="13sp"
+                android:focusable="true"
+                android:background="@drawable/bg_hover_transparent"
+                android:layout_marginEnd="8dp" />
+
+            <TextView
+                android:id="@+id/filesViewToggle"
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:gravity="center"
+                android:text="☰ List"
+                android:textColor="@color/white"
+                android:textSize="13sp"
+                android:focusable="true"
+                android:background="@drawable/bg_hover_transparent"
+                android:layout_marginEnd="8dp" />
+
+            <TextView
+                android:id="@+id/filesCloseButton"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:gravity="center"
+                android:text="✕"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:focusable="true"
+                android:background="@drawable/bg_hover_transparent"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <!-- FILE LIST -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/filesRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="16dp"
+            android:paddingBottom="40dp"
+            android:clipToPadding="false"
+            android:scrollbars="none" />
+
+    </LinearLayout>
+
+</LinearLayout>

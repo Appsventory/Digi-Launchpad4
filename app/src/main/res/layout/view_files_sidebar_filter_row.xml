@@ -1,0 +1,20 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/filterIcon"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:gravity="center"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        android:layout_marginEnd="12dp" />
+
+    <TextView
+        android:id="@+id/filterLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textColor="@color/theme_dark_primary_text"
+        android:textSize="14sp" />
+
+</merge>

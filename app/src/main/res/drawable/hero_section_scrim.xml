@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Gradasi hitam: bawah 100% → atas tetap gelap (bukan full transparent).
+     angle=90 → startColor di bawah, endColor di atas. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <gradient
+        android:angle="90"
+        android:type="linear"
+        android:startColor="#FF000000"
+        android:centerColor="#B3000000"
+        android:centerY="0.45"
+        android:endColor="#80000000" />
+</shape>

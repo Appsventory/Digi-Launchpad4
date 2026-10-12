@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_launcher"
+    android:clipChildren="false"
+    android:clipToPadding="false">
+
+    <!-- Wallpaper global (semua tab) -->
+    <ImageView
+        android:id="@+id/heroImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/hero"
+        android:contentDescription="@null" />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/hero_gradient" />
+
+    <!-- Background khusus tab Weather — full-bleed, di atas nebula global,
+         di bawah top bar/konten (yang transparan/frosted), toggle bareng weatherContent. -->
+    <ImageView
+        android:id="@+id/weatherBgImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/weather_bg_clear_scrim"
+        android:visibility="gone"
+        android:contentDescription="@null" />
+
+    <LinearLayout
+        android:id="@+id/mainContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingStart="28dp"
+        android:paddingEnd="28dp"
+        android:paddingTop="16dp"
+        android:clipChildren="false"
+        android:clipToPadding="false">
+
+        <include layout="@layout/view_top_bar" />
+
+        <!-- CONTENT HOST -->
+        <FrameLayout
+            android:id="@+id/contentHost"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:clipChildren="false"
+            android:clipToPadding="false">
+
+            <include layout="@layout/screen_home" />
+
+            <include layout="@layout/screen_apps" />
+
+            <!-- FILES / FILE MANAGER -->
+            <LinearLayout
+                android:id="@+id/filesContent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:clipChildren="false">
+
+                <include layout="@layout/view_files_page" />
+            </LinearLayout>
+
+            <!-- WEATHER -->
+            <include layout="@layout/screen_weather" />
+        </FrameLayout>
+    </LinearLayout>
+
+
+    <include layout="@layout/view_files_sidebar" />
+
+    <include layout="@layout/view_settings_sidebar" />
+
+</FrameLayout>

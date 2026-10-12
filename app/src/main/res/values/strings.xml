@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Digi Home</string>
+    <string name="files_app_name">Digi Files</string>
+    <string name="home">Home</string>
+    <string name="apps">Apps</string>
+    <string name="files">Files</string>
+    <string name="weather">Weather</string>
+    <string name="digi_home">Digi Home</string>
+    <string name="favorite_app">Favorite app</string>
+    <string name="favorite_add_app">add to favorite</string>
+    <string name="custom_channel">Channels</string>
+    <string name="channels_edit">Edit channels</string>
+    <string name="channels_show_on_home">Show channels on Home</string>
+
+    <!-- Shared dialog action labels (were duplicated as raw literals across dialogs) -->
+    <string name="action_cancel">Batal</string>
+    <string name="action_save">Simpan</string>
+    <string name="setting">Setting</string>
+</resources>

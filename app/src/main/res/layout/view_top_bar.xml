@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Top bar launcher: profil/settings sidebar trigger, navigasi tab (Home/Apps/Files/Weather),
+  tombol Android Settings, indikator jaringan, dan jam. Logic-nya ada di
+  ui/TopBarController.kt — file ini murni layout.
+-->
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <!-- TOP BAR: [profil] [search,home,apps,files,weather] [home,settings,network] | clock -->
+        <LinearLayout
+            android:id="@+id/topBar"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:elevation="24dp"
+            android:translationZ="24dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:clipChildren="false">
+
+                <ImageView
+                    android:id="@+id/profileButton"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="10dp"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_person"
+                    android:scaleType="fitCenter"
+                    android:background="@drawable/bg_avatar_selector"
+                    android:focusable="true"
+                    android:nextFocusRight="@id/searchButton"
+                    android:contentDescription="@null" />
+
+                <!-- NAV host: pill + search overlay (ukuran pill tetap, search menimpa di atas) -->
+                <FrameLayout
+                    android:id="@+id/navPillHost"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="10dp"
+                    android:clipChildren="false"
+                    android:clipToPadding="false">
+
+                <LinearLayout
+                    android:id="@+id/navPill"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:padding="6dp"
+                    android:background="@drawable/bg_pill_blur"
+                    android:orientation="horizontal"
+                    android:clipChildren="false">
+
+                    <!-- Ikon search tetap 36dp — fokus chain tidak putus -->
+                    <ImageView
+                        android:id="@+id/searchButton"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_search"
+                        android:scaleType="fitCenter"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:background="@drawable/nav_focus"
+                        android:nextFocusLeft="@id/profileButton"
+                        android:nextFocusRight="@id/homeButton"
+                        android:contentDescription="@null" />
+
+                    <FrameLayout
+                        android:id="@+id/homeButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:layout_marginStart="4dp"
+                        android:minWidth="68dp"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:focusable="true"
+                        android:background="@drawable/nav_focus"
+                        android:nextFocusLeft="@id/searchButton"
+                        android:nextFocusRight="@id/appsButton">
+                        <TextView
+                            android:id="@+id/homeButtonLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/home"
+                            android:textColor="#FFFFFF"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:includeFontPadding="false" />
+                        <View
+                            android:id="@+id/homeDot"
+                            android:layout_width="5dp"
+                            android:layout_height="5dp"
+                            android:layout_gravity="bottom|center_horizontal"
+                            android:layout_marginBottom="2dp"
+                            android:background="@drawable/tab_dot"
+                            android:visibility="visible" />
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/appsButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:layout_marginStart="4dp"
+                        android:minWidth="68dp"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:focusable="true"
+                        android:background="@drawable/nav_focus"
+                        android:nextFocusLeft="@id/homeButton"
+                        android:nextFocusRight="@id/filesButton">
+                        <TextView
+                            android:id="@+id/appsButtonLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/apps"
+                            android:textColor="#FFFFFF"
+                            android:textSize="14sp"
+                            android:includeFontPadding="false" />
+                        <View
+                            android:id="@+id/appsDot"
+                            android:layout_width="5dp"
+                            android:layout_height="5dp"
+                            android:layout_gravity="bottom|center_horizontal"
+                            android:layout_marginBottom="2dp"
+                            android:background="@drawable/tab_dot"
+                            android:visibility="gone" />
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/filesButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:layout_marginStart="4dp"
+                        android:minWidth="68dp"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:focusable="true"
+                        android:background="@drawable/nav_focus"
+                        android:nextFocusLeft="@id/appsButton"
+                        android:nextFocusRight="@id/weatherButton">
+                        <TextView
+                            android:id="@+id/filesButtonLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/files"
+                            android:textColor="#FFFFFF"
+                            android:textSize="14sp"
+                            android:includeFontPadding="false" />
+                        <View
+                            android:id="@+id/filesDot"
+                            android:layout_width="5dp"
+                            android:layout_height="5dp"
+                            android:layout_gravity="bottom|center_horizontal"
+                            android:layout_marginBottom="2dp"
+                            android:background="@drawable/tab_dot"
+                            android:visibility="gone" />
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/weatherButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:layout_marginStart="4dp"
+                        android:minWidth="76dp"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:focusable="true"
+                        android:background="@drawable/nav_focus"
+                        android:nextFocusLeft="@id/filesButton"
+                        android:nextFocusRight="@id/homeIcon">
+                        <TextView
+                            android:id="@+id/weatherButtonLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/weather"
+                            android:textColor="#FFFFFF"
+                            android:textSize="14sp"
+                            android:includeFontPadding="false" />
+                        <View
+                            android:id="@+id/weatherDot"
+                            android:layout_width="5dp"
+                            android:layout_height="5dp"
+                            android:layout_gravity="bottom|center_horizontal"
+                            android:layout_marginBottom="2dp"
+                            android:background="@drawable/tab_dot"
+                            android:visibility="gone" />
+                    </FrameLayout>
+                </LinearLayout>
+
+                <!-- Overlay search: menimpa navPill, tidak mengubah ukuran cell -->
+                <LinearLayout
+                    android:id="@+id/searchOverlay"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="12dp"
+                    android:background="@drawable/bg_pill_blur"
+                    android:elevation="16dp"
+                    android:visibility="gone"
+                    android:focusable="false"
+                    android:clickable="true">
+                    <ImageView
+                        android:id="@+id/searchOverlayIcon"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_search"
+                        android:scaleType="fitCenter"
+                        android:focusable="false"
+                        android:contentDescription="@null" />
+                    <EditText
+                        android:id="@+id/searchInput"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginStart="8dp"
+                        android:background="@null"
+                        android:hint="Cari…"
+                        android:textColorHint="#88FFFFFF"
+                        android:textColor="#FFFFFFFF"
+                        android:textSize="14sp"
+                        android:singleLine="true"
+                        android:imeOptions="actionSearch"
+                        android:inputType="text"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:importantForAutofill="no" />
+                </LinearLayout>
+                </FrameLayout>
+
+                <!-- ACTION: launcher settings, android settings, network -->
+                <LinearLayout
+                    android:id="@+id/actionPill"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:gravity="center"
+                    android:padding="6dp"
+                    android:background="@drawable/bg_pill_blur"
+                    android:orientation="horizontal"
+                    android:clipChildren="false">
+
+                    <ImageView
+                        android:id="@+id/homeIcon"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_home"
+                        android:scaleType="fitCenter"
+                        android:focusable="true"
+                        android:background="@drawable/nav_focus"
+                        android:nextFocusLeft="@id/weatherButton"
+                        android:nextFocusRight="@id/settingsButton"
+                        android:contentDescription="@null" />
+
+                    <ImageView
+                        android:id="@+id/settingsButton"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_settings"
+                        android:scaleType="fitCenter"
+                        android:focusable="true"
+                        android:background="@drawable/nav_focus"
+                        android:nextFocusLeft="@id/homeIcon"
+                        android:nextFocusRight="@id/networkIndicator"
+                        android:contentDescription="@null" />
+
+                    <ImageView
+                        android:id="@+id/networkIndicator"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_wifi"
+                        android:scaleType="fitCenter"
+                        android:focusable="true"
+                        android:background="@drawable/nav_focus"
+                        android:nextFocusLeft="@id/settingsButton"
+                        android:nextFocusRight="@id/clockTime"
+                        android:contentDescription="@null" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <LinearLayout
+                android:id="@+id/clockGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:clipChildren="false">
+
+                <TextView
+                    android:text="00:00"
+                    android:id="@+id/clockTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="8dp"
+                    android:gravity="center"
+                    android:textColor="@color/nav_text_color"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:focusable="true"
+                    android:background="@drawable/nav_focus"
+                    android:nextFocusLeft="@id/networkIndicator" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="|"
+                    android:textColor="#80FFFFFF"
+                    android:textSize="15sp"
+                    android:paddingStart="2dp"
+                    android:paddingEnd="2dp"
+                    android:focusable="false" />
+
+                <TextView
+                    android:id="@+id/clockAppName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="12dp"
+                    android:gravity="center"
+                    android:text="@string/digi_home"
+                    android:textColor="@color/nav_text_color"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:focusable="true"
+                    android:background="@drawable/nav_focus"
+                    android:nextFocusLeft="@id/clockTime" />
+            </LinearLayout>
+        </LinearLayout>
+
+</merge>

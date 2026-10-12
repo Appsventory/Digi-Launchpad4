@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+
+    <color name="background">#08090D</color>
+    <color name="surface">#171920</color>
+
+    <color name="white_90">#E6FFFFFF</color>
+    <color name="white_70">#B3020202</color>
+    <color name="white_50">#80FFFFFF</color>
+
+    <color name="blue">#3D4DFF</color>
+
+    <!-- Accent used on focused D-pad tab labels / icons (dark-on-light state) -->
+    <color name="focus_text_dark">#FF15161B</color>
+    <!-- Sky-blue accent used for selected chips / active file-manager selection -->
+    <color name="accent_sky">#FF4FC3F7</color>
+    <!-- Dark text drawn on top of the sky-blue accent background -->
+    <color name="text_on_accent">#FF0B0D12</color>
+    <color name="white_60">#99FFFFFF</color>
+    <color name="white_20">#33FFFFFF</color>
+    <color name="transparent">#00000000</color>
+
+    <!-- ThemeManager dark palette -->
+    <color name="theme_dark_panel_background">#FF12141A</color>
+    <color name="theme_dark_primary_text">#FFF5F6F8</color>
+    <color name="theme_dark_secondary_text">#FF9AA0A6</color>
+    <color name="theme_dark_divider">#1AFFFFFF</color>
+
+    <!-- ThemeManager light palette -->
+    <color name="theme_light_panel_background">#FFF3F4F6</color>
+    <color name="theme_light_primary_text">#FF15161B</color>
+    <color name="theme_light_secondary_text">#FF5F6368</color>
+    <color name="theme_light_divider">#14000000</color>
+
+    <!-- Placeholder poster tints (MainActivity recommendation fallback art) -->
+    <color name="poster_placeholder_1">#FF2A3A5C</color>
+    <color name="poster_placeholder_2">#FF3D2A4A</color>
+    <color name="poster_placeholder_3">#FF2A4A3A</color>
+    <color name="poster_placeholder_4">#FF4A3A2A</color>
+
+    <!--  Transisi to new desain  -->
+    <color name="bg_setting_sidebar_panel_header">#111112</color>
+    <color name="bg_setting_sidebar_panel">#252528</color>
+    <color name="bg_setting_sidebar_scrim">#000000D4</color>
+    <color name="setting_card_state_focused">#1A1A1B</color>
+    <color name="setting_card_state_focused_stroke">#FCFCFC</color>
+    <color name="setting_card_state_pressed">#252528</color>
+    <color name="setting_card_state_pressed_stroke">#FFAAAAAA</color>
+    <color name="setting_card">#1b1b1d</color>
+
+    <!--  for card blur  -->
+    <!-- <color name="style_card_blur">#35FFFFFF</color> -->
+    <!-- <color name="style_card_blur_stroke">#45FFFFFF</color> -->
+    <color name="style_card_blur">#4010151C</color>
+    <color name="style_card_blur_stroke">#20FFFFFF</color>
+    <color name="style_card_blur_hover">#65F0F7FF</color>
+    <color name="style_card_blur_stroke_hover">#FFFFFFFF</color>
+
+</resources>

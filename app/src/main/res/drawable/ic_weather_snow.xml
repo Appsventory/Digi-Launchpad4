@@ -1,0 +1,22 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="28dp"
+    android:height="28dp"
+    android:viewportWidth="28"
+    android:viewportHeight="28">
+
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#FFFFFFFF"
+        android:strokeWidth="1.6"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M9,21h10c3.31,0 6,-2.24 6,-5c0,-2.54 -2.28,-4.64 -5.25,-4.96C19.15,7.59 16.87,5.5 14,5.5c-3.31,0 -6,2.46 -6,5.5v0.15C5.18,11.57 3,13.42 3,16c0,2.76 2.69,5 6,5z" />
+
+    <!-- Snowflakes: three tiny crosses -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#FFFFFFFF"
+        android:strokeWidth="1.4"
+        android:strokeLineCap="round"
+        android:pathData="M9,23L11,23 M10,22L10,24 M13,24L15,24 M14,23L14,25 M17,23L19,23 M18,22L18,24" />
+</vector>

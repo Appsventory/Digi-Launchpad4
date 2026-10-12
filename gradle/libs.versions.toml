@@ -1,0 +1,23 @@
+[versions]
+agp = "8.13.2"
+kotlin = "2.2.0"
+coreKtx = "1.16.0"
+appcompat = "1.7.0"
+material = "1.12.0"
+constraintlayout = "2.2.1"
+tvProvider = "1.0.0"
+smbj = "0.13.0"
+bcprov = "1.78.1"
+
+[libraries]
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+androidx-tv-provider = { group = "androidx.tvprovider", name = "tvprovider", version.ref = "tvProvider" }
+smbj = { group = "com.hierynomus", name = "smbj", version.ref = "smbj" }
+bcprov = { group = "org.bouncycastle", name = "bcprov-jdk18on", version.ref = "bcprov" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

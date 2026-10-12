@@ -1,0 +1,21 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="28dp"
+    android:height="28dp"
+    android:viewportWidth="28"
+    android:viewportHeight="28">
+
+    <!-- Sun body -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#FFFFFFFF"
+        android:strokeWidth="1.6"
+        android:pathData="M14,9a5,5 0,1 0,0,10a5,5 0,1 0,0,-10" />
+
+    <!-- Rays -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#FFFFFFFF"
+        android:strokeWidth="1.6"
+        android:strokeLineCap="round"
+        android:pathData="M14,6.5L14,4 M19.3,8.7L21.1,6.9 M21.5,14L24,14 M19.3,19.3L21.1,21.1 M14,21.5L14,24 M8.7,19.3L6.9,21.1 M6.5,14L4,14 M8.7,8.7L6.9,6.9" />
+</vector>

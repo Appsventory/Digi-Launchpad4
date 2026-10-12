@@ -1,0 +1,891 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Scrim + sliding single-column sidebar (NOT dual rail+content) -->
+    <FrameLayout
+        android:id="@+id/sidebarScrim"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_setting_sidebar_scrim"
+        android:visibility="gone"
+        android:focusable="true"
+        android:clickable="true">
+
+        <FrameLayout
+            android:id="@+id/sidebarPanel"
+            android:layout_width="350dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:background="@color/bg_setting_sidebar_panel"
+            android:elevation="28dp"
+            android:clickable="true"
+            android:focusable="false"
+            android:clipChildren="false"
+            android:clipToPadding="false">
+
+            <!-- ═══ ROOT ═══ -->
+            <ScrollView
+                android:id="@+id/sidebarRootScroll"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none"
+                android:fillViewport="true"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:paddingStart="28dp"
+                android:paddingEnd="28dp"
+                android:paddingTop="28dp"
+                android:paddingBottom="28dp">
+
+                <LinearLayout
+                    android:id="@+id/sidebarRootPage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- Profile — same as top bar -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="28dp">
+                        <ImageView
+                            android:id="@+id/settingsProfileAvatar"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:padding="8dp"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/ic_person"
+                            android:background="@drawable/bg_avatar_selector"
+                            android:contentDescription="@null"/>
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="14dp"
+                            android:orientation="vertical">
+                            <TextView
+                                android:id="@+id/settingsProfileName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="User"
+                                android:textColor="#FFFFFFFF"
+                                android:textSize="17sp"
+                                android:textStyle="bold"/>
+                            <TextView
+                                android:id="@+id/settingsProfileDate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:text=""
+                                android:textColor="#FF8A8A8A"
+                                android:textSize="12sp"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- Menu list: All Applications + categories (same style) -->
+                    <LinearLayout
+                        android:id="@+id/rootCategoryList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"/>
+
+                    <!-- Kept for ID compatibility; hidden — item built in code as first category -->
+                    <LinearLayout
+                        android:id="@+id/rootAllAppsRow"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:visibility="gone"/>
+                    <ImageView
+                        android:id="@+id/rootAllAppsIcon"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:visibility="gone"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:minHeight="24dp"/>
+
+                    <!-- System Setting bottom -->
+                    <LinearLayout
+                        android:id="@+id/rootSystemSettingRow"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:background="@drawable/bg_settings_menu_row"
+                        android:focusable="true"
+                        android:clickable="true"
+                        android:layout_marginTop="8dp">
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:src="@drawable/ic_settings_gear"
+                            android:contentDescription="@null"
+                            android:tint="@color/settings_menu_icon"
+                            android:duplicateParentState="true"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:text="System Setting"
+                            android:textColor="@color/settings_menu_text"
+                            android:textSize="15sp"
+                            android:duplicateParentState="true"/>
+                    </LinearLayout>
+
+                    <!-- Compat hidden targets for MainActivity bindViews -->
+                    <android.widget.Switch
+                        android:id="@+id/bannerSwitch"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:visibility="gone"/>
+                    <TextView
+                        android:id="@+id/sidebarClose"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:visibility="gone"/>
+                </LinearLayout>
+            </ScrollView>
+
+
+
+            <!-- ═══ HOME SCREEN ═══ -->
+            <ScrollView
+                android:id="@+id/sidebarHomeScreenScroll"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="65dp"
+                android:visibility="gone"
+                android:scrollbars="none"
+                android:fillViewport="true"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="28dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- Content Carousel -->
+                    <LinearLayout
+                        android:id="@+id/sidebarContentRow"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingTop="14dp"
+                        android:paddingBottom="14dp"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:background="@drawable/bg_hover_transparent"
+                        android:focusable="true"
+                        android:clickable="true"
+                        android:layout_marginBottom="4dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Content Carousel"
+                            android:textColor="#FFFFFFFF"
+                            android:textSize="16sp"/>
+                        <TextView
+                            android:id="@+id/providerSummary"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:text="Recently added media"
+                            android:textColor="#FF8A8A8A"
+                            android:textSize="12sp"/>
+                    </LinearLayout>
+
+                    <!-- Home Channel -->
+                    <LinearLayout
+                        android:id="@+id/sidebarCustomChannelRow"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingTop="14dp"
+                        android:paddingBottom="14dp"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:background="@drawable/bg_hover_transparent"
+                        android:focusable="true"
+                        android:clickable="true"
+                        android:layout_marginBottom="4dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Customize channels"
+                            android:textColor="#FFFFFFFF"
+                            android:textSize="16sp"/>
+                        <TextView
+                            android:id="@+id/customChannelSummary"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:text="0 channels displayed"
+                            android:textColor="#FF8A8A8A"
+                            android:textSize="12sp"/>
+                    </LinearLayout>
+
+                    <!-- Hidden compat targets -->
+                    <LinearLayout
+                        android:id="@+id/sidebarAllAppsRow"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:visibility="gone"/>
+                    <LinearLayout
+                        android:id="@+id/sidebarSystemSettingRow"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:visibility="gone"/>
+                </LinearLayout>
+            </ScrollView>
+
+            <!-- ═══ ALL APPS ═══ -->
+            <ScrollView
+                android:id="@+id/sidebarAllAppsScroll"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="65dp"
+                android:visibility="gone"
+                android:scrollbars="none"
+                android:fillViewport="true"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="28dp">
+                <LinearLayout
+                    android:id="@+id/sidebarAllAppsPage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/allAppsStatus"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="#FF8A8A8A"
+                        android:textSize="12sp"
+                        android:visibility="gone"/>
+                    <LinearLayout
+                        android:id="@+id/allAppsList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"/>
+                </LinearLayout>
+            </ScrollView>
+
+            <!-- ═══ APP DETAIL ═══ -->
+            <ScrollView
+                android:id="@+id/sidebarAppDetailScroll"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="65dp"
+                android:visibility="gone"
+                android:scrollbars="none"
+                android:fillViewport="true"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="28dp">
+                <LinearLayout
+                    android:id="@+id/sidebarAppDetailPage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="16dp">
+                        <ImageView
+                            android:id="@+id/appDetailIcon"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:scaleType="fitCenter"
+                            android:background="@drawable/bg_settings_icon_tile"
+                            android:contentDescription="@null"/>
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="12dp"
+                            android:orientation="vertical">
+                            <TextView
+                                android:id="@+id/appDetailName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Settings"
+                                android:textColor="#FFFFFFFF"
+                                android:textSize="16sp"
+                                android:textStyle="bold"/>
+                            <TextView
+                                android:id="@+id/appDetailVersion"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:text=""
+                                android:textColor="#FF8A8A8A"
+                                android:textSize="12sp"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="22dp">
+                        <TextView
+                            android:id="@+id/appDetailLaunch"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="Launch"
+                            android:textColor="@color/settings_btn_text"
+                            android:textSize="13sp"
+                            android:background="@drawable/bg_hover_solid"
+                            android:focusable="true"
+                            android:clickable="true"
+                            android:layout_marginEnd="6dp"/>
+                        <TextView
+                            android:id="@+id/appDetailUninstall"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="Uninstall"
+                            android:textColor="@color/settings_btn_text"
+                            android:textSize="13sp"
+                            android:background="@drawable/bg_hover_solid"
+                            android:focusable="true"
+                            android:clickable="true"
+                            android:layout_marginEnd="6dp"/>
+                        <TextView
+                            android:id="@+id/openAppDetail"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="Open Settings"
+                            android:textColor="@color/settings_btn_text"
+                            android:textSize="13sp"
+                            android:background="@drawable/bg_hover_solid"
+                            android:focusable="true"
+                            android:clickable="true"/>
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="MAIN SETTING"
+                        android:textColor="#FF6A6A6A"
+                        android:textSize="10sp"
+                        android:letterSpacing="0.08"
+                        android:layout_marginBottom="8dp"/>
+
+                    <LinearLayout
+                        android:id="@+id/appDetailStorageRow"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:background="@drawable/bg_hover_transparent"
+                        android:focusable="true"
+                        android:clickable="true">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="Storage used" android:textColor="#FFFFFFFF" android:textSize="14sp"/>
+                        <TextView android:id="@+id/appDetailStorageValue" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp" android:text="—" android:textColor="#FF8A8A8A" android:textSize="12sp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/appDetailClearDataRow"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:background="@drawable/bg_hover_transparent"
+                        android:focusable="true"
+                        android:clickable="true">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="Clear data" android:textColor="#FFFFFFFF" android:textSize="14sp"/>
+                        <TextView android:id="@+id/appDetailClearDataValue" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp" android:text="—" android:textColor="#FF8A8A8A" android:textSize="12sp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/appDetailClearCacheRow"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:background="@drawable/bg_hover_transparent"
+                        android:focusable="true"
+                        android:clickable="true">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="Clear cache" android:textColor="#FFFFFFFF" android:textSize="14sp"/>
+                        <TextView android:id="@+id/appDetailClearCacheValue" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp" android:text="—" android:textColor="#FF8A8A8A" android:textSize="12sp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/appDetailClearDefaultsRow"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:background="@drawable/bg_hover_transparent"
+                        android:focusable="true"
+                        android:clickable="true">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="Clear defaults" android:textColor="#FFFFFFFF" android:textSize="14sp"/>
+                        <TextView android:id="@+id/appDetailClearDefaultsValue" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp" android:text="no defaults set" android:textColor="#FF8A8A8A" android:textSize="12sp"/>
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="PERMISSION"
+                        android:textColor="#FF6A6A6A"
+                        android:textSize="10sp"
+                        android:letterSpacing="0.08"
+                        android:layout_marginTop="22dp"
+                        android:layout_marginBottom="12dp"/>
+
+                    <LinearLayout
+                        android:id="@+id/appDetailPermissionsList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"/>
+                    <TextView
+                        android:id="@+id/appDetailPermissions"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="No permissions"
+                        android:textColor="#FF8A8A8A"
+                        android:textSize="13sp"
+                        android:visibility="gone"/>
+                </LinearLayout>
+            </ScrollView>
+
+            <!-- ═══ CONTENT ═══ -->
+            <ScrollView
+                android:id="@+id/sidebarContentScroll"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="65dp"
+                android:visibility="gone"
+                android:scrollbars="none"
+                android:fillViewport="true"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="28dp">
+                <LinearLayout
+                    android:id="@+id/sidebarContentPage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:id="@+id/carouselEnableRow"
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:background="@drawable/bg_hover_solid"
+                        android:focusable="true"
+                        android:clickable="true"
+                        android:layout_marginBottom="12dp">
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="Enable Content Carousel" android:textColor="#FFFFFFFF" android:textSize="14sp" android:textStyle="bold"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp" android:text="Show recommendations on Home"
+                                android:textColor="#FF8A8A8A" android:textSize="12sp"/>
+                        </LinearLayout>
+                        <android.widget.Switch
+                            android:id="@+id/carouselEnableSwitch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:focusable="false"
+                            android:clickable="false"/>
+                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/carouselAppsSectionTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SELECT CHANNEL"
+                        android:textColor="#FF6A6A6A"
+                        android:textSize="10sp"
+                        android:letterSpacing="0.08"
+                        android:layout_marginBottom="8dp"/>
+                    <TextView
+                        android:id="@+id/providerConfigStatus"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="#FF8A8A8A"
+                        android:textSize="12sp"
+                        android:layout_marginBottom="6dp"/>
+                    <LinearLayout
+                        android:id="@+id/providerList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"/>
+                </LinearLayout>
+            </ScrollView>
+
+            <!-- ═══ CUSTOM CHANNEL ═══ -->
+            <ScrollView
+                android:id="@+id/sidebarCustomChannelScroll"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="65dp"
+                android:visibility="gone"
+                android:scrollbars="none"
+                android:fillViewport="true"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="28dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:id="@+id/customChannelEnableRow"
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:background="@drawable/bg_hover_solid"
+                        android:focusable="true"
+                        android:clickable="true"
+                        android:layout_marginBottom="12dp">
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="Enable Home Channels" android:textColor="#FFFFFFFF" android:textSize="14sp" android:textStyle="bold"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp" android:text="Show custom channels on Home"
+                                android:textColor="#FF8A8A8A" android:textSize="12sp"/>
+                        </LinearLayout>
+                        <android.widget.Switch
+                            android:id="@+id/customChannelEnableSwitch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:focusable="false"
+                            android:clickable="false"/>
+                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/customChannelStatus"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="#FF8A8A8A"
+                        android:textSize="12sp"
+                        android:layout_marginBottom="6dp"/>
+                    <LinearLayout
+                        android:id="@+id/customChannelList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"/>
+                </LinearLayout>
+            </ScrollView>
+
+            <!-- ═══ APPEARANCE ═══ -->
+            <ScrollView
+                android:id="@+id/sidebarAppearanceScroll"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="65dp"
+                android:visibility="gone"
+                android:scrollbars="none"
+                android:fillViewport="true"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="28dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="WALLPAPER" android:textColor="#FF6A6A6A" android:textSize="10sp"
+                        android:letterSpacing="0.08" android:layout_marginBottom="8dp"/>
+                    <TextView android:id="@+id/wallpaperStatusText" android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:textColor="#FF8A8A8A" android:textSize="12sp" android:layout_marginBottom="10dp"/>
+                    <TextView android:id="@+id/pickWallpaperImageButton" android:layout_width="match_parent" android:layout_height="48dp"
+                        android:gravity="center" android:text="Pick image" android:textColor="#FFFFFFFF" android:textSize="14sp"
+                        android:background="@drawable/bg_hover_solid" android:focusable="true" android:clickable="true"
+                        android:layout_marginBottom="8dp"/>
+                    <LinearLayout
+                        android:id="@+id/gradientGroupsContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginBottom="8dp"/>
+                    <TextView android:id="@+id/resetWallpaperButton" android:layout_width="match_parent" android:layout_height="48dp"
+                        android:gravity="center" android:text="Reset wallpaper" android:textColor="#FFCCCCCC" android:textSize="14sp"
+                        android:background="@drawable/bg_hover_solid" android:focusable="true" android:clickable="true"
+                        android:layout_marginBottom="8dp"/>
+                </LinearLayout>
+            </ScrollView>
+
+            <!-- ═══ PREFERENCES ═══ -->
+            <ScrollView
+                android:id="@+id/sidebarPreferencesScroll"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="65dp"
+                android:visibility="gone"
+                android:scrollbars="none"
+                android:fillViewport="true"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="28dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:id="@+id/sidebarClock24hRow"
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:background="@drawable/bg_hover_solid"
+                        android:focusable="true"
+                        android:clickable="true"
+                        android:layout_marginBottom="10dp">
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                            android:layout_weight="1" android:orientation="vertical">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="24-hour clock" android:textColor="#FFFFFFFF" android:textSize="14sp" android:textStyle="bold"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp" android:text="Use 24-hour time format"
+                                android:textColor="#FF8A8A8A" android:textSize="12sp"/>
+                        </LinearLayout>
+                        <android.widget.Switch android:id="@+id/clock24hSwitch" android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" android:focusable="false" android:clickable="false"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/sidebarInitialTabRow"
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:background="@drawable/bg_hover_solid"
+                        android:focusable="true"
+                        android:clickable="true"
+                        android:layout_marginBottom="10dp">
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                            android:layout_weight="1" android:orientation="vertical">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="Start tab" android:textColor="#FFFFFFFF" android:textSize="14sp" android:textStyle="bold"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp" android:text="Tab saat tekan Home / buka launcher"
+                                android:textColor="#FF8A8A8A" android:textSize="12sp"/>
+                        </LinearLayout>
+                        <TextView android:id="@+id/defaultTabButton" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="Home" android:textColor="#FF4FC3F7" android:textSize="13sp" android:textStyle="bold"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/sidebarNavBarRow"
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:background="@drawable/bg_hover_solid"
+                        android:focusable="true"
+                        android:clickable="true">
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Navigation bar"
+                                android:textColor="#FFFFFFFF"
+                                android:textSize="14sp"
+                                android:textStyle="bold"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:text="Tampil / sembunyi / urutan menu di nav"
+                                android:textColor="#FF8A8A8A"
+                                android:textSize="12sp"/>
+                        </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="›"
+                            android:textColor="#FF4FC3F7"
+                            android:textSize="18sp"
+                            android:textStyle="bold"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </ScrollView>
+
+            <!-- ═══ NAV BAR EDITOR ═══ -->
+            <ScrollView
+                android:id="@+id/sidebarNavBarScroll"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="65dp"
+                android:visibility="gone"
+                android:scrollbars="none"
+                android:fillViewport="true"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="28dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Centang = tampil di nav. Gunakan ◀︎ ▶︎ untuk urutan."
+                        android:textColor="#FF8A8A8A"
+                        android:textSize="12sp"
+                        android:layout_marginBottom="12dp"/>
+                    <LinearLayout
+                        android:id="@+id/navBarEditorList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"/>
+                </LinearLayout>
+            </ScrollView>
+
+            <!-- ═══ ABOUT ═══ -->
+            <ScrollView
+                android:id="@+id/sidebarAboutScroll"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="65dp"
+                android:visibility="gone"
+                android:scrollbars="none"
+                android:fillViewport="true"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="28dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView android:id="@+id/appVersionText" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="Digi Home" android:textColor="#FFFFFFFF" android:textSize="15sp" android:layout_marginBottom="20dp"/>
+                    <TextView android:id="@+id/resetSettingsButton" android:layout_width="match_parent" android:layout_height="52dp"
+                        android:gravity="center" android:text="Reset all settings" android:textColor="#FFFF6B6B"
+                        android:textSize="14sp" android:textStyle="bold" android:background="@drawable/bg_settings_danger"
+                        android:focusable="true" android:clickable="true"/>
+                </LinearLayout>
+            </ScrollView>
+            <!-- ═══ SUB HEADER fixed on top of all pages (last child = drawn above scrolls) ═══ -->
+            <LinearLayout
+                android:id="@+id/settingsSubHeader"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="20dp"
+                android:background="@color/bg_setting_sidebar_panel_header"
+                android:visibility="gone">
+                <ImageView
+                    android:id="@+id/sidebarBack"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="6dp"
+                    android:src="@drawable/ic_settings_back"
+                    android:scaleType="fitCenter"
+                    android:focusable="true"
+                    android:clickable="true"
+                    android:background="@drawable/bg_hover_transparent"
+                    android:contentDescription="@null"/>
+                <TextView
+                    android:id="@+id/sidebarTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="12dp"
+                    android:text="@string/setting"
+                    android:textColor="#FFFFFFFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+            <View
+                android:id="@+id/settingsHeaderDivider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="64dp"
+                android:background="#1b1b1d"
+                android:elevation="12dp"
+                android:visibility="gone"/>
+
+        </FrameLayout>
+    </FrameLayout>
+</merge>

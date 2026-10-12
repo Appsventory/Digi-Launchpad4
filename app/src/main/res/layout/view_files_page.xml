@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Konten File Manager tunggal — dipakai:
+    - tab Files di MainActivity (header GONE)
+    - FilesActivity standalone (header VISIBLE)
+  Flag visibility header diatur FileManagerController(standalone=true/false).
+-->
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Header standalone only -->
+    <LinearLayout
+        android:id="@+id/filesHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:paddingBottom="4dp"
+        android:clipChildren="false">
+
+        <TextView
+            android:id="@+id/filesTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/files_app_name"
+            android:textColor="@color/theme_dark_primary_text"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.01" />
+
+        <TextView
+            android:id="@+id/filesCloseButton"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:gravity="center"
+            android:text="✕"
+            android:textColor="@color/theme_dark_primary_text"
+            android:textSize="16sp"
+            android:focusable="true"
+            android:background="@drawable/bg_files_path_chip" />
+    </LinearLayout>
+
+    <!-- Toolbar -->
+    <LinearLayout
+        android:id="@+id/filesToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:clipChildren="false">
+
+        <TextView
+            android:id="@+id/filesMenuButton"
+            android:layout_width="44dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="☰"
+            android:textColor="@color/theme_dark_primary_text"
+            android:textSize="16sp"
+            android:focusable="true"
+            android:background="@drawable/bg_files_path_chip"
+            android:nextFocusRight="@id/filesUpButton" />
+
+        <TextView
+            android:id="@+id/filesUpButton"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            android:gravity="center"
+            android:text="↑ Naik"
+            android:textColor="@color/theme_dark_primary_text"
+            android:textSize="13sp"
+            android:focusable="true"
+            android:background="@drawable/bg_files_path_chip"
+            android:nextFocusLeft="@id/filesMenuButton"
+            android:nextFocusRight="@id/filesPath" />
+
+        <TextView
+            android:id="@+id/filesPath"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:gravity="center_vertical"
+            android:text="/"
+            android:textColor="@color/theme_dark_primary_text"
+            android:textSize="12sp"
+            android:maxLines="1"
+            android:ellipsize="start"
+            android:focusable="true"
+            android:background="@drawable/bg_files_path_chip"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:nextFocusLeft="@id/filesUpButton"
+            android:nextFocusRight="@id/filesSortButton" />
+
+        <TextView
+            android:id="@+id/filesSortButton"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginEnd="8dp"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            android:gravity="center"
+            android:text="↕ Nama"
+            android:textColor="@color/theme_dark_primary_text"
+            android:textSize="13sp"
+            android:focusable="true"
+            android:background="@drawable/bg_files_path_chip"
+            android:nextFocusLeft="@id/filesPath"
+            android:nextFocusRight="@id/filesViewToggle" />
+
+        <TextView
+            android:id="@+id/filesViewToggle"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            android:gravity="center"
+            android:text="☰ List"
+            android:textColor="@color/theme_dark_primary_text"
+            android:textSize="13sp"
+            android:focusable="true"
+            android:background="@drawable/bg_files_path_chip"
+            android:nextFocusLeft="@id/filesSortButton" />
+    </LinearLayout>
+
+    <!-- List / grid host -->
+    <ScrollView
+        android:id="@+id/filesScroll"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="14dp"
+        android:scrollbars="none"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:paddingBottom="8dp">
+
+        <LinearLayout
+            android:id="@+id/filesList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:clipChildren="false" />
+    </ScrollView>
+</merge>

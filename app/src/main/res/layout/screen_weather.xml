@@ -1,0 +1,529 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Weather modern: current hero + hourly + 7-day. Data: Open-Meteo + cache.
+     Background foto (weatherContent) khusus halaman ini, ganti sesuai kode cuaca
+     lewat WeatherBackground.kt — TIDAK dipakai sebagai wallpaper global.
+     Semua teks bahasa Inggris (universal) — lihat WeatherController.kt/WeatherRepository.kt. -->
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ScrollView
+        android:id="@+id/weatherContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="none"
+        android:visibility="gone"
+        android:overScrollMode="never"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:paddingStart="48dp"
+        android:paddingEnd="48dp"
+        android:paddingTop="24dp"
+        android:paddingBottom="0dp">
+
+        <!-- paddingBottom di SINI (inner), sama seperti homeScrollInner 120dp —
+             gap bawah + ruang scale-on-focus. paddingBottom di ScrollView
+             + clipToPadding=false tidak memberi jarak di ujung konten. -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:paddingBottom="120dp">
+
+            <!-- Status (Cache OK · …) tetap di pojok kanan atas — TIDAK ikut di-center -->
+            <TextView
+                android:id="@+id/weatherStatusText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="Loading…"
+                android:textColor="#80FFFFFF"
+                android:textSize="12sp"
+                android:layout_marginBottom="4dp" />
+
+            <!-- "Page 1": lokasi + suhu + 5 menu di-center vertikal.
+                 Top/bottom spacer diukur di WeatherController.adjustPage1Centering()
+                 supaya NEXT 24H / 7-DAY di luar viewport. -->
+            <LinearLayout
+                android:id="@+id/weatherPage1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:clipChildren="false"
+                android:clipToPadding="false">
+
+                <!-- Spacer atas: diisi dinamis biar konten vertikal di tengah -->
+                <View
+                    android:id="@+id/weatherTopSpacer"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp" />
+
+                <!-- Blok konten yang di-center (lokasi + hero + 5 menu) -->
+                <LinearLayout
+                    android:id="@+id/weatherPage1Content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:clipChildren="false"
+                    android:clipToPadding="false">
+
+                    <!-- Header: pin + kota + tanggal/jam (tanpa status — status sudah di atas) -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="18dp">
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_marginEnd="8dp"
+                            android:src="@drawable/ic_location_pin"
+                            android:contentDescription="@null" />
+                        <TextView
+                            android:id="@+id/weatherCityText"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Jakarta"
+                            android:textColor="#FFFFFFFF"
+                            android:textSize="12sp"
+                            android:letterSpacing="0.01" />
+                    </LinearLayout>
+
+                    <!-- Hero current: langsung di atas background, tanpa kartu -->
+                    <LinearLayout
+                        android:id="@+id/weatherHeroCard"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginBottom="32dp"
+                        android:layout_marginTop="-15dp"
+                        android:focusable="true">
+
+                        <TextView
+                            android:id="@+id/weatherTempText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="--°C"
+                            android:textColor="#FFFFFFFF"
+                            android:textSize="115sp"
+                            android:textStyle="bold"
+                            android:includeFontPadding="false"
+                            android:shadowColor="#40000000"
+                            android:shadowDx="0"
+                            android:shadowDy="2"
+                            android:shadowRadius="8" />
+
+                        <TextView
+                            android:id="@+id/weatherConditionText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Weather"
+                            android:textColor="#FFFFFFFF"
+                            android:textSize="26sp"
+                            android:textStyle="bold"
+                            android:layout_marginTop="-15dp"
+                            android:layout_marginBottom="16dp" />
+
+                        <!-- feels / humidity / wind / rain -->
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <!-- LEFT COLUMN -->
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_marginEnd="40dp">
+                                <!-- Feels Like -->
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:gravity="center_vertical"
+                                    android:layout_marginBottom="10dp">
+                                    <ImageView
+                                        android:layout_width="@dimen/weather_icon_size"
+                                        android:layout_height="@dimen/weather_icon_size"
+                                        android:src="@drawable/ic_thermostat"
+                                        android:layout_marginEnd="8dp"
+                                        android:contentDescription="@null" />
+                                    <TextView
+                                        android:id="@+id/weatherFeelsText"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Feels like: --°"
+                                        android:textColor="#E6FFFFFF"
+                                        android:textSize="@dimen/weather_font_size"
+                                        android:includeFontPadding="false" />
+                                </LinearLayout>
+
+                                <!-- Humidity -->
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:layout_marginTop="-5dp"
+                                    android:gravity="center_vertical">
+                                    <ImageView
+                                        android:layout_width="@dimen/weather_icon_size"
+                                        android:layout_height="@dimen/weather_icon_size"
+                                        android:src="@drawable/ic_water_drop"
+                                        android:layout_marginEnd="8dp"
+                                        android:contentDescription="@null" />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Humidity: "
+                                        android:textColor="#E6FFFFFF"
+                                        android:textSize="@dimen/weather_font_size"
+                                        android:includeFontPadding="false" />
+                                    <TextView
+                                        android:id="@+id/weatherHumidityText"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="--"
+                                        android:textColor="#E6FFFFFF"
+                                        android:textSize="@dimen/weather_font_size"
+                                        android:includeFontPadding="false" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!-- RIGHT COLUMN -->
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+                                <!-- Wind -->
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:gravity="center_vertical"
+                                    android:layout_marginBottom="10dp">
+                                    <ImageView
+                                        android:layout_width="@dimen/weather_icon_size"
+                                        android:layout_height="@dimen/weather_icon_size"
+                                        android:src="@drawable/ic_wind"
+                                        android:layout_marginEnd="8dp"
+                                        android:contentDescription="@null" />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Wind: "
+                                        android:textColor="#E6FFFFFF"
+                                        android:textSize="@dimen/weather_font_size"
+                                        android:includeFontPadding="false" />
+                                    <TextView
+                                        android:id="@+id/weatherWindText"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="--"
+                                        android:textColor="#E6FFFFFF"
+                                        android:textSize="@dimen/weather_font_size"
+                                        android:includeFontPadding="false" />
+                                </LinearLayout>
+
+                                <!-- Rain -->
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:layout_marginTop="-5dp"
+                                    android:gravity="center_vertical">
+                                    <ImageView
+                                        android:layout_width="@dimen/weather_icon_size"
+                                        android:layout_height="@dimen/weather_icon_size"
+                                        android:src="@drawable/ic_rain"
+                                        android:layout_marginEnd="8dp"
+                                        android:contentDescription="@null" />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Rain: "
+                                        android:textColor="#E6FFFFFF"
+                                        android:textSize="@dimen/weather_font_size"
+                                        android:includeFontPadding="false" />
+                                    <TextView
+                                        android:id="@+id/weatherPrecipText"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="--"
+                                        android:textColor="#E6FFFFFF"
+                                        android:textSize="@dimen/weather_font_size"
+                                        android:includeFontPadding="false" />
+                                </LinearLayout>
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                    <!-- Spacer bawah: HARUS di luar content, sibling top spacer.
+                                         Mengisi sisa viewport supaya NEXT 24H tidak kelihatan. -->
+                    <View
+                        android:id="@+id/weatherBottomSpacer"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp" />
+                    <!-- Today's details: satu kartu frosted, 5 item + divider -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:background="@drawable/bg_card_blur_dark"
+                        android:padding="20dp"
+                        android:layout_marginBottom="28dp">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center_horizontal">
+                            <ImageView
+                                android:id="@+id/weatherDetailNowIcon"
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
+                                android:src="@drawable/ic_weather_now"
+                                android:contentDescription="@null" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="NOW"
+                                android:textColor="#99FFFFFF"
+                                android:textSize="10sp"
+                                android:letterSpacing="0.08"
+                                android:layout_marginTop="8dp" />
+                            <TextView
+                                android:id="@+id/weatherDetailNowText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="--"
+                                android:textColor="#FFFFFFFF"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                android:layout_marginTop="2dp" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="#33FFFFFF" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center_horizontal">
+                            <ImageView
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
+                                android:src="@drawable/ic_weather_sunrise"
+                                android:contentDescription="@null" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="SUNRISE"
+                                android:textColor="#99FFFFFF"
+                                android:textSize="10sp"
+                                android:letterSpacing="0.08"
+                                android:layout_marginTop="8dp" />
+                            <TextView
+                                android:id="@+id/weatherSunriseText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="--:--"
+                                android:textColor="#FFFFFFFF"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                android:layout_marginTop="2dp" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="#33FFFFFF" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center_horizontal">
+                            <ImageView
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
+                                android:src="@drawable/ic_weather_sunset"
+                                android:contentDescription="@null" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="SUNSET"
+                                android:textColor="#99FFFFFF"
+                                android:textSize="10sp"
+                                android:letterSpacing="0.08"
+                                android:layout_marginTop="8dp" />
+                            <TextView
+                                android:id="@+id/weatherSunsetText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="--:--"
+                                android:textColor="#FFFFFFFF"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                android:layout_marginTop="2dp" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="#33FFFFFF" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center_horizontal">
+                            <ImageView
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
+                                android:src="@drawable/ic_weather_rain"
+                                android:contentDescription="@null" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="RAIN TODAY"
+                                android:textColor="#99FFFFFF"
+                                android:textSize="10sp"
+                                android:letterSpacing="0.08"
+                                android:layout_marginTop="8dp" />
+                            <TextView
+                                android:id="@+id/weatherTodayRainText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="--"
+                                android:textColor="#FFFFFFFF"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                android:layout_marginTop="2dp" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="#33FFFFFF" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center_horizontal">
+                            <ImageView
+                                android:id="@+id/weatherWindDirIcon"
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
+                                android:src="@drawable/ic_weather_wind"
+                                android:contentDescription="@null" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="WIND DIRECTION"
+                                android:textColor="#99FFFFFF"
+                                android:textSize="10sp"
+                                android:letterSpacing="0.08"
+                                android:layout_marginTop="8dp" />
+                            <TextView
+                                android:id="@+id/weatherWindDirText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="--"
+                                android:textColor="#FFFFFFFF"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                android:layout_marginTop="2dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                    <!-- /5-item details card -->
+
+                </LinearLayout>
+                <!-- /weatherPage1Content -->
+
+            </LinearLayout>
+            <!-- /weatherPage1 -->
+
+            <!-- Hourly -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NEXT 24 HOURS"
+                android:textColor="#99FFFFFF"
+                android:textSize="12sp"
+                android:letterSpacing="0.1"
+                android:layout_marginBottom="10dp" />
+            <HorizontalScrollView
+                android:id="@+id/weatherHourlyScroll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:paddingTop="14dp"
+                android:paddingBottom="20dp"
+                android:layout_marginBottom="16dp">
+                <LinearLayout
+                    android:id="@+id/weatherHourlyRow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:clipChildren="false"
+                    android:clipToPadding="false" />
+            </HorizontalScrollView>
+
+            <!-- Daily -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="7-DAY FORECAST"
+                android:textColor="#99FFFFFF"
+                android:textSize="12sp"
+                android:letterSpacing="0.1"
+                android:layout_marginBottom="10dp" />
+            <HorizontalScrollView
+                android:id="@+id/weatherDailyScroll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:paddingTop="14dp"
+                android:paddingBottom="24dp"
+                android:layout_marginBottom="16dp">
+                <LinearLayout
+                    android:id="@+id/weatherDailyRow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:paddingBottom="16dp" />
+            </HorizontalScrollView>
+
+            <!-- Footer spacer: bagian dari konten yang diukur fokus/scroll.
+                 Focus ScrollView hanya memastikan BOUNDS kartu terlihat, bukan
+                 padding di bawahnya — spacer ini memperbesar "anak" terakhir
+                 supaya saat fokus kartu, ada ruang di bawah (sama ide row.setPadding
+                 bottom di channel Home). -->
+            <View
+                android:id="@+id/weatherBottomFoot"
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:focusable="false"
+                android:importantForAccessibility="no" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</merge>

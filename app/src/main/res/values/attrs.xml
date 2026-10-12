@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="FilesFilterRow">
+        <attr name="iconText" format="string" />
+        <attr name="iconBackground" format="reference" />
+        <attr name="labelText" format="string" />
+    </declare-styleable>
+
+</resources>

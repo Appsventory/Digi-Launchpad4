@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="apps_grid_num_columns">7</integer>
+
+    <dimen name="apps_grid_gap_v">40dp</dimen>
+    <dimen name="apps_grid_gap_h">9dp</dimen>
+    <dimen name="apps_grid_edge">0dp</dimen>
+
+    <!-- wajib ada — dipakai MainActivity baris ~586 -->
+    <dimen name="apps_favorite_card_width">160dp</dimen>
+
+    <!--  dimensi icon & text  -->
+    <dimen name="weather_icon_size">18dp</dimen>
+    <dimen name="weather_font_size">12dp</dimen>
+
+
+    <!--  Transisi to new desain  -->
+    <dimen name="setting_card_radius">12dp</dimen>
+
+    <!--  for card blur  -->
+    <dimen name="style_card_blur_radius">15dp</dimen>
+
+</resources>

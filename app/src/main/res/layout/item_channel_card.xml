@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="228dp"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="14dp"
+    android:orientation="vertical"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:clipChildren="false">
+
+    <FrameLayout
+        android:id="@+id/channelCard"
+        android:layout_width="match_parent"
+        android:layout_height="128dp"
+        android:background="@drawable/bg_card"
+        android:clipToOutline="true">
+
+        <ImageView
+            android:id="@+id/channelPoster"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:contentDescription="@null" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/channelTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:paddingStart="2dp"
+        android:paddingEnd="2dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textColor="#FFFFFF"
+        android:textSize="13sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/channelMeta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:paddingStart="2dp"
+        android:paddingEnd="2dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textColor="#B3FFFFFF"
+        android:textSize="11sp" />
+
+    <TextView
+        android:id="@+id/channelMetaProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:paddingStart="2dp"
+        android:paddingEnd="2dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textColor="#B3FFFFFF"
+        android:textSize="11sp" />
+</LinearLayout>

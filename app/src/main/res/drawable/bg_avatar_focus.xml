@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Outer colorful ring simulated with layered strokes -->
+    <item>
+        <shape android:shape="oval">
+            <gradient
+                android:type="sweep"
+                android:startColor="#4285F4"
+                android:centerColor="#EA4335"
+                android:endColor="#FBBC05" />
+        </shape>
+    </item>
+    <!-- Inner fill leaving a ring -->
+    <item
+        android:left="3dp"
+        android:top="3dp"
+        android:right="3dp"
+        android:bottom="3dp">
+        <shape android:shape="oval">
+            <solid android:color="#5914151C" />
+        </shape>
+    </item>
+</layer-list>

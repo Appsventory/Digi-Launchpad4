@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <bitmap
+            android:src="@drawable/weather_bg_snow"
+            android:gravity="fill" />
+    </item>
+    <item>
+        <shape>
+            <gradient
+                android:angle="90"
+                android:startColor="#4D000000"
+                android:centerColor="#26000000"
+                android:endColor="#66000000" />
+        </shape>
+    </item>
+</layer-list>

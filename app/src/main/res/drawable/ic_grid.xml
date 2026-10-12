@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="40dp"
+    android:height="40dp"
+    android:viewportWidth="100"
+    android:viewportHeight="100">
+
+    <!-- Merah (Kiri Atas) -->
+    <path
+        android:fillColor="#DC1E3D"
+        android:pathData="M18,10 h20 a8,8 0 0 1 8,8 v20 a8,8 0 0 1 -8,8 h-20 a8,8 0 0 1 -8,-8 v-20 a8,8 0 0 1 8,-8 z" />
+
+    <!-- Hijau (Kanan Atas) -->
+    <path
+        android:fillColor="#43A047"
+        android:pathData="M62,10 h20 a8,8 0 0 1 8,8 v20 a8,8 0 0 1 -8,8 h-20 a8,8 0 0 1 -8,-8 v-20 a8,8 0 0 1 8,-8 z" />
+
+    <!-- Biru (Kiri Bawah) -->
+    <path
+        android:fillColor="#2152D8"
+        android:pathData="M18,54 h20 a8,8 0 0 1 8,8 v20 a8,8 0 0 1 -8,8 h-20 a8,8 0 0 1 -8,-8 v-20 a8,8 0 0 1 8,-8 z" />
+
+    <!-- Oranye (Kanan Bawah) -->
+    <path
+        android:fillColor="#FF6D00"
+        android:pathData="M62,54 h20 a8,8 0 0 1 8,8 v20 a8,8 0 0 1 -8,8 h-20 a8,8 0 0 1 -8,-8 v-20 a8,8 0 0 1 8,-8 z" />
+</vector>

@@ -1,0 +1,32 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="28dp"
+    android:height="28dp"
+    android:viewportWidth="28"
+    android:viewportHeight="28">
+
+    <!-- Circle -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:pathData="M14,2.5
+            A11.5,11.5 0,1 0,14,25.5
+            A11.5,11.5 0,1 0,14,2.5"
+        android:strokeColor="#FFFFFFFF"
+        android:strokeWidth="1.7"
+        android:strokeLineCap="round" />
+
+    <!-- i dot -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M14,8
+            A1.2,1.2 0,1 0,14,10.4
+            A1.2,1.2 0,1 0,14,8" />
+
+    <!-- i stem -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:pathData="M14,12.5 L14,20"
+        android:strokeColor="#FFFFFFFF"
+        android:strokeWidth="1.8"
+        android:strokeLineCap="round" />
+
+</vector>
