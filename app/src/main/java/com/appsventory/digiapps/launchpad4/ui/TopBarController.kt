@@ -20,6 +20,7 @@ import android.widget.Toast
 import com.appsventory.digiapps.launchpad4.MainActivity
 import com.appsventory.digiapps.launchpad4.R
 import com.appsventory.digiapps.launchpad4.ui.search.SearchResultsController
+import androidx.core.view.isVisible
 
 /**
  * Shell top bar: Profile ↔ Navigation ↔ Shortcuts, plus Search activation.
@@ -76,7 +77,6 @@ class TopBarController(private val activity: MainActivity) {
     fun setupTopBarActions() {
         val profileButton = activity.findViewById<View>(R.id.profileButton)
         val searchButton = activity.findViewById<ImageView>(R.id.searchButton)
-        val searchOverlay = activity.findViewById<LinearLayout>(R.id.searchOverlay)
         val searchOverlayIcon = activity.findViewById<ImageView>(R.id.searchOverlayIcon)
         val searchInput = activity.findViewById<EditText>(R.id.searchInput)
         val homeIcon = activity.findViewById<ImageView>(R.id.homeIcon)
@@ -241,7 +241,7 @@ class TopBarController(private val activity: MainActivity) {
         val weather = activity.weatherButton
 
         val nav = listOfNotNull(search, home, apps, files, weather)
-            .filter { it.visibility == View.VISIBLE }
+            .filter { it.isVisible }
 
         // Shortcuts: prefer live action-pill children (dynamic + any still-visible static)
         val pill = activity.findViewById<LinearLayout>(R.id.actionPill)
@@ -249,7 +249,7 @@ class TopBarController(private val activity: MainActivity) {
         if (pill != null) {
             for (i in 0 until pill.childCount) {
                 val c = pill.getChildAt(i)
-                if (c.visibility == View.VISIBLE && c.isFocusable) {
+                if (c.isVisible && c.isFocusable) {
                     shortcuts += c
                 }
             }
@@ -260,7 +260,7 @@ class TopBarController(private val activity: MainActivity) {
                 activity.findViewById(R.id.homeIcon),
                 activity.findViewById(R.id.settingsButton),
                 activity.networkIndicator
-            ).filter { it.visibility == View.VISIBLE }.let { shortcuts += it }
+            ).filter { it.isVisible }.let { shortcuts += it }
         }
 
         fun chain(views: List<View>) {
@@ -333,6 +333,10 @@ class TopBarController(private val activity: MainActivity) {
             searchInput.requestFocus()
         }
     }
+
+    /** True while Search overlay/panel is active (KEYBOARD or EXPANDED, or results panel visible). */
+    fun isSearchActive(): Boolean =
+        searchState != SearchState.IDLE || searchResults.isVisible()
 
     /**
      * Back handling for Search.
@@ -420,7 +424,7 @@ class TopBarController(private val activity: MainActivity) {
             val child = pill.getChildAt(i)
             if (child === searchButton) {
                 child.alpha = 0f
-            } else if (child.visibility == View.VISIBLE) {
+            } else if (child.isVisible) {
                 hiddenTabs.add(child)
                 child.visibility = View.INVISIBLE
             }
@@ -459,7 +463,7 @@ class TopBarController(private val activity: MainActivity) {
         searchButton?.alpha = 1f
         searchButton?.setColorFilter(white)
         overlay.animate().cancel()
-        if (overlay.visibility == View.VISIBLE) {
+        if (overlay.isVisible) {
             overlay.animate().alpha(0f).setDuration(120L).withEndAction {
                 overlay.visibility = View.GONE
                 overlay.alpha = 1f

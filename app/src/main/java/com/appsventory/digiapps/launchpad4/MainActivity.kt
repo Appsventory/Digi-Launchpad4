@@ -517,18 +517,14 @@ class MainActivity : Activity() {
                 showPermissionOnboarding()
             }
         }
-        handler.post(
-            object : Runnable {
-                override fun run() {
-                    updateNetworkIndicator()
+    }
 
-                    handler.postDelayed(
-                        this,
-                        5000
-                    )
-                }
-            }
-        )
+    /** Polling indikator jaringan; hanya jalan selagi Activity di foreground (lihat onResume/onPause). */
+    private val networkPollRunnable = object : Runnable {
+        override fun run() {
+            updateNetworkIndicator()
+            handler.postDelayed(this, 5000)
+        }
     }
 
     private companion object {
@@ -3342,6 +3338,9 @@ class MainActivity : Activity() {
         }
     }
 
+    /** Tanda tangan hasil build grid Apps terakhir; null = belum pernah dibangun. */
+    private var lastAppsSignature: List<Any>? = null
+
     internal fun loadApplications() {
         appRepository.loadApplications { resolved ->
             if (isFinishing || isDestroyed) return@loadApplications
@@ -3359,6 +3358,17 @@ class MainActivity : Activity() {
 
             // Sisanya (tanpa banner & belum pin) → modal "Other apps"
             noBannerApps = noBanner.filter { !isPinned(it.packageName) }
+
+            // loadApplications() dipanggil tiap onResume (balik dari app lain). Kalau daftar app,
+            // pin, dan visual-nya identik, JANGAN bikin adapter baru: itu memaksa GridView
+            // relayout total + reset scroll/fokus tanpa ada yang berubah.
+            val signature = listOf(
+                appRepository.visualGeneration,
+                gridApps.map { it.packageName },
+                noBannerApps.map { it.packageName }
+            )
+            if (signature == lastAppsSignature) return@loadApplications
+            lastAppsSignature = signature
 
             rebuildFavoriteRow()
 
@@ -4944,6 +4954,12 @@ class MainActivity : Activity() {
 
             KeyEvent.KEYCODE_DPAD_DOWN -> {
 
+                // Search owns DOWN from the top bar while active — do not redirect
+                // into Home carousel / Apps grid (see TopBarController searchInput handler).
+                if (topBar.isSearchActive()) {
+                    return super.dispatchKeyEvent(event)
+                }
+
                 if (
                     focused === appsButton ||
                     (
@@ -5788,7 +5804,8 @@ class MainActivity : Activity() {
 
         loadApplications()
 
-        updateNetworkIndicator()
+        handler.removeCallbacks(networkPollRunnable)
+        handler.post(networkPollRunnable)
 
         if (sidebarOpen) {
             settingsSidebar.populateChannelList()
@@ -5817,6 +5834,7 @@ class MainActivity : Activity() {
 
         super.onPause()
 
+        handler.removeCallbacks(networkPollRunnable)
         handler.removeCallbacks(recommendationsRefreshRunnable)
         stopCarouselAutoScroll()
     }
@@ -5847,6 +5865,8 @@ class MainActivity : Activity() {
         )
 
         imageExecutor.shutdownNow()
+
+        appRepository.shutdown()
 
         posterCache.evictAll()
 

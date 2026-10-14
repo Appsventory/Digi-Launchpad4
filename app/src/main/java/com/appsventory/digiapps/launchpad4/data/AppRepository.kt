@@ -9,6 +9,7 @@ import android.os.Handler
 import android.os.Looper
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import java.util.concurrent.atomic.AtomicInteger
 
 /**
  * Sumber data daftar aplikasi terinstal + cache visual (icon/banner/label).
@@ -35,15 +36,22 @@ class AppRepository(private val appContext: Context) {
     /** Cache icon/banner/label per package. */
     private val visualCache = HashMap<String, Triple<Drawable?, Drawable?, CharSequence>>()
 
+    private val visualGen = AtomicInteger(0)
+    val visualGeneration: Int get() = visualGen.get()
+
     /** Package yang resolve lewat LEANBACK_LAUNCHER — dipakai buat pisahin app "made for TV"
      *  dari app biasa (sideload/phone) di sidebar Select app. Diisi ulang tiap [scanInstalledApps]. */
     @Volatile
+    private var closed = false
     private var leanbackPackages: Set<String> = emptySet()
 
     /** True kalau app ini "dibuat untuk TV" (punya activity dengan CATEGORY_LEANBACK_LAUNCHER). */
     fun isTvApp(pkg: String): Boolean = leanbackPackages.contains(pkg)
 
+    private val scanExecutor: ExecutorService = Executors.newSingleThreadExecutor()
+
     fun clearVisualCache() {
+        visualGen.incrementAndGet()
         visualCache.clear()
     }
 
@@ -147,4 +155,10 @@ class AppRepository(private val appContext: Context) {
 
     fun hasLauncherActivity(packageName: String): Boolean =
         launchIntentFor(packageName) != null
+
+    fun shutdown() {
+        closed = true
+        scanExecutor.shutdownNow()
+        ioExecutor.shutdownNow()
+    }
 }
